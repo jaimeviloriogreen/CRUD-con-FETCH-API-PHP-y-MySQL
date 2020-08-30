@@ -15,3 +15,30 @@
 html{
     font-size: 16px;
 }
+
+/* body{
+    position: relative !important;
+} */
+
+.espaciadoArriba{
+    padding-top: 80px;
+}
+
+.alerta{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.alert{
+    animation: alertas 300ms ease 0s 1 normal none;
+}
+
+@keyframes alertas{
+    0%{
+        transform: translateY(-50px);
+    }
+}
+
+
