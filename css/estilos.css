@@ -1,0 +1,17 @@
+:root{
+    --color1: #ffffff;
+    --color2: #000000;
+    --color3: #F0F3F5;
+    --color4: #9c9999;
+
+    --fuente1: "Raleway", sans-serif;
+    --fuente2: "Quicksand", sans-serif;
+}
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+html{
+    font-size: 16px;
+}

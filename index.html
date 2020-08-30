@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Web personal de Jaime Vilorio">
+    <meta name="keywords" content="desarrollo, web, HTML, CSS, JavaScript">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="#" type="image/x-icon">
+    <title>Jaime Vilorio | Desarrollador</title>
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Oswald:400,700|Poppins|Quicksand|Raleway:400,700,900|Roboto:400,900&display=swap" rel="stylesheet"> 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> 
+      <!-- Font Awesome -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+</head>
+<body>
+  
+  <section class="container mt-5 alerta"></section>
+  <section class="container mt-5">
+    <form id="formularioEntrada">
+        <div class="form-group">
+          <input type="text" name="nombre" class="form-control" placeholder="Nombre" autofocus>
+        </div>
+        <div class="form-group">
+          <input type="text" name="apellido" class="form-control" placeholder="Apellido">
+        </div>
+        <div class="form-group">
+          <input type="text" name="profesion" class="form-control" placeholder="Profesión" autofocus>
+        </div>
+
+        <input type="submit" value="Entrar" name="submitEntrada" class="btn btn-danger">
+    </form>
+  </section>
+   <section class="container my-5">
+       <form id="formularioMostrar">
+              <input type="submit" value="Mostrar" class="btn btn-primary" name="submitMostrar">
+       </form>
+
+       <div class="container mt-3">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Profesion</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="respuesta">
+              
+            </tbody>
+          </table>
+       </div>
+   </section>
+
+    
+<!-- JavaScript -->
+    <script type="module" src="/js/app.js"></script>
+    <script type="module" src="/js/funciones.js"></script>
+</body>
+</html>
