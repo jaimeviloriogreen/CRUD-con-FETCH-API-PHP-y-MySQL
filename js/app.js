@@ -12,6 +12,9 @@ let alerta = document.querySelector('.alerta');
 // Entradas
    formularioEntrada.addEventListener('submit', funciones.entrar);
 
+// Actualizar
+   respuesta.addEventListener('click', funciones.actualizar);
+
 //    Alertas
    alerta.addEventListener('click', funciones.alertar);
 
