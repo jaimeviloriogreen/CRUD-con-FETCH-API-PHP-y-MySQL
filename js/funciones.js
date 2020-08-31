@@ -36,12 +36,15 @@ let mostrar = (e)=>{
                 respuesta.innerHTML = '';
                 data.forEach((elemento, indice)=>{
                     respuesta.innerHTML += 
-                    `   <tr data-id="${elemento.id}">
+                    `   <tr class="text-center" data-id="${elemento.id}">
                             <th scope="row">${indice} </th>
                             <td>${elemento.nombre}</td>
                             <td>${elemento.apellido}</td>
                             <td>${elemento.profesion}</td>
-                            <td><i class="btn btn-dark h6 far fa-trash-alt"></i></td>
+                            <td class="d-flex justify-content-center">
+                                <i class="btn btn-dark mx-1 far fa-trash-alt"></i>
+                                <i class="btn btn-danger mx-1 fas fa-marker"></i>
+                            </td>
                         </tr>
                     `;
                 });
