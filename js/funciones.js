@@ -9,13 +9,37 @@ let inputNombre = document.querySelector('.nombre');
 let inputApellido = document.querySelector('.apellido');
 let inputProfesion = document.querySelector('.profesion');
 let botonEntrarActualizar = document.querySelector('.entrarActualizar');
+let id;
+
+// Para mostrar datos solamente
+let recargar = ()=>{
+    fetch('/mostrar.php')
+        .then((res)=>res.json())
+        .then((data)=>{
+            respuesta.innerHTML = '';
+            data.forEach((elemento, indice)=>{
+                respuesta.innerHTML += 
+                `<tr class="text-center" data-id="${elemento.id}">
+                <th scope="row">${indice} </th>
+                <td>${elemento.nombre}</td>
+                <td>${elemento.apellido}</td>
+                <td>${elemento.profesion}</td>
+                <td class="d-flex justify-content-center">
+                <i class="btn btn-dark mx-1 far fa-trash-alt"></i>
+                <i class="btn btn-danger mx-1 fas fa-marker"></i>
+                </td>
+                </tr>
+                `;
+            });
+            
+            //console.log(data);
+        });
+}
 
 // Mostrar en el Dom
 let mostrar = (e)=>{
     e.preventDefault();
-        
         let datos = new FormData(formulario); 
-
         fetch('/mostrar.php', {
             method: 'POST', 
             body: datos
@@ -35,7 +59,6 @@ let mostrar = (e)=>{
                 `;
             }else{
                 estado = true;
-                console.log(estado);
                 respuesta.innerHTML = '';
                 data.forEach((elemento, indice)=>{
                     respuesta.innerHTML += 
@@ -51,58 +74,46 @@ let mostrar = (e)=>{
                         </tr>
                     `;
                 });
-            }
-        //console.log(data);
+            };
         });
 }
+
+// Actualizar Inputs
+let actualizar = (e)=>{
+    if(e.target.classList.contains('fa-marker')){
+        botonEntrarActualizar.value = 'Actualizar';
+        id = e.target.parentElement.parentElement.dataset.id;
+        let nombre = e.target.parentElement.parentElement.cells[1].innerText;
+        let apellido = e.target.parentElement.parentElement.cells[2].innerText;
+        let profesion = e.target.parentElement.parentElement.cells[3].innerText;
+        
+        inputNombre.value = nombre;
+        inputApellido.value = apellido;
+        inputProfesion.value = profesion;
+        }        
+}
+
 // Entrar en la base de datos
-let entrar = (e)=>{
+let entrarActualizar = (e)=>{
     e.preventDefault();
+
+    // Valido si es para entrar datos en MySQL
+if(botonEntrarActualizar.value == 'Entrar'){
     let datos = new FormData(formularioEntrada);
-    console.log('Entrando'); 
-    
-    let nombre = datos.get('nombre');
-    let apellido = datos.get('apellido');
-    let profesion = datos.get('profesion');
-    // console.log(nombre, apellido, profesion);
-    
     fetch('/entrar.php', {
         method:'POST', 
         body:datos
     })
     .then((respuesta)=>respuesta.json())
     .then((datos)=>{
-        
         if(datos === 'exito'){
             if(estado == true){
-                (()=>{
-                    fetch('/mostrar.php')
-                    .then((res)=>res.json())
-                    .then((data)=>{
-                        respuesta.innerHTML = '';
-                        data.forEach((elemento, indice)=>{
-                            respuesta.innerHTML += 
-                            `   <tr data-id="${elemento.id}">
-                            <th scope="row">${indice} </th>
-                            <td>${elemento.nombre}</td>
-                            <td>${elemento.apellido}</td>
-                            <td>${elemento.profesion}</td>
-                            <td class="d-flex justify-content-center">
-                            <i class="btn btn-dark mx-1 far fa-trash-alt"></i>
-                            <i class="btn btn-danger mx-1 fas fa-marker"></i>
-                            </td>
-                            </tr>
-                            `;
-                        });
-                        
-                        //console.log(data);
-                    });
-                })();
+                recargar();
             }
             alerta.innerHTML = 
             `
             <div class="alert alert-success" role="alert">
-            Registro exitoso!
+            Registro Exitoso!
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span class="eliminar" aria-hidden="true">&times;</span>
             </button>
@@ -122,17 +133,43 @@ let entrar = (e)=>{
             `;
         };
         
-    })
-    .catch(()=>console.error('Hubo un error!'));
-    
-    formularioEntrada.reset();
+        })
+            .catch(()=>console.error('Hubo un error!'));
+                formularioEntrada.reset();
+    }else{
+        // Actualizando registros en MySQL
+            e.preventDefault();
+            let datos = new FormData(formularioEntrada);
+                datos.append('id', id);
+            fetch('/actualizar.php', {
+                method:'POST', 
+                body:datos
+            })
+            .then((respuesta)=>respuesta.json())
+            .then((datos)=>{
+                if(datos == 'actualizado'){
+                    if(estado == true){
+                        recargar();
+                    }
+                alerta.innerHTML = 
+                    `
+                    <div class="alert alert-success" role="alert">
+                    Registro Actualizado!
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span class="eliminar" aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    
+                    `;
+
+                }
+            })
+            .catch(()=>console.error('Hay un error al actualizar!'));
+            botonEntrarActualizar.value = 'Entrar';
+            formularioEntrada.reset(); 
+    }; 
 }
-// Alertas
-let alertar = (e)=>{
-    if(e.target.className == 'eliminar'){
-        e.target.parentElement.parentElement.remove();
-    };
-}
+
 // Eliminar
 let eliminar = (e)=>{
     if(e.target.classList.contains('fa-trash-alt')){
@@ -162,41 +199,14 @@ let eliminar = (e)=>{
         })
         .catch((e)=>console.error('Error al eliminar!'));
     };
-}
+};
 
-// Actualizar
-
-let actualizar = (e)=>{
-    if(e.target.classList.contains('fa-marker')){
-        e.preventDefault();
-        // console.log('actualizando');
-        botonEntrarActualizar.value = 'Actualizar';
-        
-        let id = e.target.parentElement.parentElement.dataset.id;
-        let nombre = e.target.parentElement.parentElement.cells[1].innerText;
-        let apellido = e.target.parentElement.parentElement.cells[2].innerText;
-        let profesion = e.target.parentElement.parentElement.cells[3].innerText;
-        
-        inputNombre.value = nombre;
-        inputApellido.value = apellido;
-        inputProfesion.value = profesion;
-        
-            let datos = new FormData(formularioEntrada);
-            let nombreForm = datos.get('nombre');
-            let apellidoForm = datos.get('apellido');
-            let profesionForm = datos.get('profesion');
-
-            // console.log(nombreForm, apellidoForm, profesionForm);
-            // console.log('actualizando');
-            //console.log(botonEntrarActualizar.value);
-        }
-        //formularioEntrada.reset();    
-}
+// Alertas
+let alertar = (e)=>{
+    if(e.target.className == 'eliminar'){
+        e.target.parentElement.parentElement.remove();
+    };
+};
 
 
-
-
-
-
-
-export{mostrar, entrar, alertar, eliminar, actualizar}
+export{mostrar, entrarActualizar, alertar, eliminar, actualizar}

@@ -9,13 +9,13 @@ let alerta = document.querySelector('.alerta');
 // Mostrar
     formulario.addEventListener('submit', funciones.mostrar);
 
-// Entradas
-   formularioEntrada.addEventListener('submit', funciones.entrar);
-
-// Actualizar
+// Actualizar Inputs
    respuesta.addEventListener('click', funciones.actualizar);
 
-//    Alertas
+// Entradas y actualizaciones a MySQL
+   formularioEntrada.addEventListener('submit', funciones.entrarActualizar);
+
+// Alertas
    alerta.addEventListener('click', funciones.alertar);
 
 // Eliminar registro en Base de Datos
