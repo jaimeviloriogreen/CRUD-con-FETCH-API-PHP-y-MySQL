@@ -48,16 +48,20 @@ let mostrar = (e)=>{
         .then((res)=>res.json())
         .then((data)=>{
             if(data === 'No hay registros!'){
-                alerta.innerHTML = 
-                `
-                <div class="alert alert-warning" role="alert">
-                    ${data}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span class="eliminar" aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                
-                `;
+                if(submitMostrar.value == 'Ocultar'){
+                    submitMostrar.value = 'Mostrar';
+                }else{
+                    alerta.innerHTML = 
+                    `
+                    <div class="alert alert-warning" role="alert">
+                        ${data}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span class="eliminar" aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    
+                    `;
+                }
             }else{
                 respuesta.innerHTML = '';
                 if(submitMostrar.value == 'Mostrar'){
