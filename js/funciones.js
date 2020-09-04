@@ -209,4 +209,4 @@ let alertar = (e)=>{
 };
 
 
-export{mostrar, entrarActualizar, alertar, eliminar, actualizar}
+export{mostrar, entrarActualizar, alertar, eliminar, actualizar, formulario, respuesta, formularioEntrada, alerta}
