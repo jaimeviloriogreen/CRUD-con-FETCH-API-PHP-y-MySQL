@@ -18,14 +18,6 @@ class Conexion{
             }
         }
     }
-    public static function agregar($sql){
-        if(self::conectar()->connect_errno){
-            die('Hubo un fallo en la conexión!');
-        }else{
-            $agregando = self::conectar();
-            $agregando->query($sql);
-        }
-    }
 }
 
 
