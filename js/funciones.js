@@ -3,37 +3,38 @@
 let formulario = document.querySelector('#formularioMostrar');
 let formularioEntrada = document.querySelector('#formularioEntrada');
 let alerta = document.querySelector('.alerta');
-let estado = '';
 let respuesta = document.getElementById('respuesta');
 let inputNombre = document.querySelector('.nombre');
 let inputApellido = document.querySelector('.apellido');
 let inputProfesion = document.querySelector('.profesion');
 let botonEntrarActualizar = document.querySelector('.entrarActualizar');
+let submitMostrar = document.getElementById('submitMostrar');
 let id;
 
 // Para mostrar datos solamente
+
 let recargar = ()=>{
     fetch('/mostrar.php')
-        .then((res)=>res.json())
-        .then((data)=>{
-            respuesta.innerHTML = '';
-            data.forEach((elemento, indice)=>{
-                respuesta.innerHTML += 
-                `<tr class="text-center" data-id="${elemento.id}">
-                <th scope="row">${indice} </th>
-                <td>${elemento.nombre}</td>
-                <td>${elemento.apellido}</td>
-                <td>${elemento.profesion}</td>
-                <td class="d-flex justify-content-center">
-                <i class="btn btn-dark mx-1 far fa-trash-alt"></i>
-                <i class="btn btn-danger mx-1 fas fa-marker"></i>
-                </td>
-                </tr>
-                `;
-            });
-            
-            //console.log(data);
+    .then((res)=>res.json())
+    .then((data)=>{
+        respuesta.innerHTML = '';
+        data.forEach((elemento, indice)=>{
+            respuesta.innerHTML += 
+            `<tr class="text-center" data-id="${elemento.id}">
+            <th scope="row">${indice} </th>
+            <td>${elemento.nombre}</td>
+            <td>${elemento.apellido}</td>
+            <td>${elemento.profesion}</td>
+            <td class="d-flex justify-content-center">
+            <i class="btn btn-dark mx-1 far fa-trash-alt"></i>
+            <i class="btn btn-danger mx-1 fas fa-marker"></i>
+            </td>
+            </tr>
+            `;
         });
+        
+        //console.log(data);
+    });
 }
 
 // Mostrar en el Dom
@@ -58,22 +59,26 @@ let mostrar = (e)=>{
                 
                 `;
             }else{
-                estado = true;
                 respuesta.innerHTML = '';
-                data.forEach((elemento, indice)=>{
-                    respuesta.innerHTML += 
-                    `   <tr class="text-center" data-id="${elemento.id}">
-                            <th scope="row">${indice} </th>
-                            <td>${elemento.nombre}</td>
-                            <td>${elemento.apellido}</td>
-                            <td>${elemento.profesion}</td>
-                            <td class="d-flex justify-content-center">
-                                <i class="btn btn-dark mx-1 far fa-trash-alt"></i>
-                                <i class="btn btn-danger mx-1 fas fa-marker"></i>
-                            </td>
-                        </tr>
-                    `;
-                });
+                if(submitMostrar.value == 'Mostrar'){
+                    submitMostrar.value = 'Ocultar';
+                    data.forEach((elemento, indice)=>{
+                        respuesta.innerHTML += 
+                        `   <tr class="text-center" data-id="${elemento.id}">
+                                <th scope="row">${indice} </th>
+                                <td>${elemento.nombre}</td>
+                                <td>${elemento.apellido}</td>
+                                <td>${elemento.profesion}</td>
+                                <td class="d-flex justify-content-center">
+                                    <i class="btn btn-dark mx-1 far fa-trash-alt"></i>
+                                    <i class="btn btn-danger mx-1 fas fa-marker"></i>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }else{
+                    submitMostrar.value = 'Mostrar';
+                }
             };
         });
 }
@@ -107,8 +112,8 @@ if(botonEntrarActualizar.value == 'Entrar'){
     .then((respuesta)=>respuesta.json())
     .then((datos)=>{
         if(datos === 'exito'){
-            if(estado == true){
-                recargar();
+            if(submitMostrar.value == 'Ocultar'){
+                    recargar();
             }
             alerta.innerHTML = 
             `
@@ -148,8 +153,8 @@ if(botonEntrarActualizar.value == 'Entrar'){
             .then((respuesta)=>respuesta.json())
             .then((datos)=>{
                 if(datos == 'actualizado'){
-                    if(estado == true){
-                        recargar();
+                    if(submitMostrar.value == 'Ocultar'){
+                            recargar();
                     }
                 alerta.innerHTML = 
                     `
